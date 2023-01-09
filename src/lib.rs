@@ -70,23 +70,23 @@ pub fn seconds_to_hms(seconds: u64) -> DaysHoursMinutesSeconds {
 
 /// state
 #[derive(Debug, Clone)]
-pub struct State {
+pub struct Uptime {
     /// set on instantiation
     started_at: Instant,
     /// optional way to track error counts for the specified service
     error_count: u64,
 }
 
-impl Default for State {
+impl Default for Uptime {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl State {
+impl Uptime {
     /// create a new
-    pub fn new() -> State {
-        State {
+    pub fn new() -> Uptime {
+        Uptime {
             started_at: Instant::now(),
             error_count: 0_u64,
         }
@@ -117,7 +117,7 @@ mod tests {
 
     #[test]
     fn get_uptime() {
-        let uptime = State::new();
+        let uptime = Uptime::new();
         assert_eq!(
             uptime.get_uptime(),
             DaysHoursMinutesSeconds::new().to_string()
@@ -126,7 +126,7 @@ mod tests {
 
     #[test]
     fn get_uptime_seconds() {
-        let uptime = State::new();
+        let uptime = Uptime::new();
         assert_eq!(uptime.get_uptime_seconds(), 0);
     }
 
