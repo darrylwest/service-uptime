@@ -1,12 +1,13 @@
 #![doc = include_str!("../README.md")]
 
+use serde::{Deserialize, Serialize};
 use std::fmt;
 use std::time::Instant;
 
 /// the current app version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
-#[derive(Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct DaysHoursMinutesSeconds {
     seconds: u64,
     minutes: u64,
@@ -87,8 +88,8 @@ impl Uptime {
     ///
     /// Example:
     ///
-    pub fn get_uptime(&self) -> String {
-        seconds_to_hms(self.get_uptime_seconds()).to_string()
+    pub fn get_uptime(&self) -> DaysHoursMinutesSeconds {
+        seconds_to_hms(self.get_uptime_seconds())
     }
 
     /// returns the instant that this service was created
@@ -107,6 +108,12 @@ impl Uptime {
     }
 }
 
+impl fmt::Display for Uptime {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.get_uptime())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -115,7 +122,7 @@ mod tests {
     fn get_uptime() {
         let uptime = Uptime::new();
         assert_eq!(
-            uptime.get_uptime(),
+            uptime.to_string(),
             DaysHoursMinutesSeconds::new().to_string()
         );
 
