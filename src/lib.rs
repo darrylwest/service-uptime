@@ -1,5 +1,6 @@
 #![doc = include_str!("../README.md")]
 
+use std::fmt;
 use std::time::Instant;
 
 /// the current app version
@@ -13,25 +14,35 @@ pub struct DaysHoursMinutesSeconds {
     days: u64,
 }
 
-impl DaysHoursMinutesSeconds {
-    /// create a new zero'd struct
-    pub fn new() -> DaysHoursMinutesSeconds {
-        let zero = 0_u64;
-        DaysHoursMinutesSeconds {
-            seconds: zero,
-            minutes: zero,
-            hours: zero,
-            days: zero,
-        }
-    }
-
-    /// return the string in the standard format
-    pub fn to_string(&self) -> String {
-        format!(
+impl fmt::Display for DaysHoursMinutesSeconds {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
             "{} days, {:02}:{:02}:{:02} hms",
             self.days, self.hours, self.minutes, self.seconds
         )
     }
+}
+
+impl DaysHoursMinutesSeconds {
+    /// create a new zero'd struct
+    pub fn new() -> DaysHoursMinutesSeconds {
+        DaysHoursMinutesSeconds {
+            seconds: 0u64,
+            minutes: 0u64,
+            hours: 0u64,
+            days: 0u64,
+        }
+    }
+
+    /// return the string in the standard format
+    /*
+    pub fn to_string(&self) -> String {
+            "{} days, {:02}:{:02}:{:02} hms",
+            self.days, self.hours, self.minutes, self.seconds
+        )
+    }
+    */
 
     /// create a new struct with the elapsed seconds set to any number
     pub fn from_seconds(seconds: u64) -> DaysHoursMinutesSeconds {
@@ -107,7 +118,10 @@ mod tests {
     #[test]
     fn get_uptime() {
         let uptime = State::new();
-        assert_eq!(uptime.get_uptime(), DaysHoursMinutesSeconds::new().to_string());
+        assert_eq!(
+            uptime.get_uptime(),
+            DaysHoursMinutesSeconds::new().to_string()
+        );
     }
 
     #[test]
@@ -146,19 +160,7 @@ mod tests {
         assert_eq!(p.minutes, 0);
         assert_eq!(p.seconds, 0);
 
-        // ai generated
-        assert_eq!(
-            seconds_to_hms(86400),
-            DaysHoursMinutesSeconds::from_seconds(86400)
-        );
-        // assert_eq!(seconds_to_hms(90000), (1, 1, 0, 0));
-        // assert_eq!(seconds_to_hms(54000), (0, 15, 0, 0));
-        // assert_eq!(seconds_to_hms(3661), (0, 1, 1, 1));
-
-        // Test conversion of 0 seconds
-        assert_eq!(seconds_to_hms(0), DaysHoursMinutesSeconds::new());
-
-        for n in 0..100000 {
+        for n in 0..100000u64 {
             let p = seconds_to_hms(n);
 
             assert!((0..=59).contains(&p.seconds));
@@ -166,5 +168,16 @@ mod tests {
             assert!((0..=23).contains(&p.hours));
             assert!((0..=3).contains(&p.days));
         }
+
+        // ai generated
+        for ts in [86400u64, 90000u64, 54000u64, 3661] {
+            assert_eq!(
+                seconds_to_hms(ts),
+                DaysHoursMinutesSeconds::from_seconds(ts)
+            );
+        }
+
+        // Test conversion of 0 seconds
+        assert_eq!(seconds_to_hms(0), DaysHoursMinutesSeconds::new());
     }
 }
