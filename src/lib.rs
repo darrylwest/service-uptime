@@ -35,15 +35,6 @@ impl DaysHoursMinutesSeconds {
         }
     }
 
-    /// return the string in the standard format
-    /*
-    pub fn to_string(&self) -> String {
-            "{} days, {:02}:{:02}:{:02} hms",
-            self.days, self.hours, self.minutes, self.seconds
-        )
-    }
-    */
-
     /// create a new struct with the elapsed seconds set to any number
     pub fn from_seconds(seconds: u64) -> DaysHoursMinutesSeconds {
         seconds_to_hms(seconds)
@@ -100,6 +91,11 @@ impl Uptime {
         seconds_to_hms(self.get_uptime_seconds()).to_string()
     }
 
+    /// returns the instant that this service was created
+    pub fn get_started_at(&self) -> Instant {
+        self.started_at
+    }
+
     /// return the elapsed seconds for this service
     pub fn get_uptime_seconds(&self) -> u64 {
         self.started_at.elapsed().as_secs()
@@ -122,6 +118,8 @@ mod tests {
             uptime.get_uptime(),
             DaysHoursMinutesSeconds::new().to_string()
         );
+
+        assert_eq!(uptime.get_started_at().elapsed().as_secs(), 0);
     }
 
     #[test]
