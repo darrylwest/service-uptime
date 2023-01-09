@@ -25,6 +25,14 @@ impl DaysHoursMinutesSeconds {
         }
     }
 
+    /// return the string in the standard format
+    pub fn to_string(&self) -> String {
+        format!(
+            "{} days, {:02}:{:02}:{:02} hms",
+            self.days, self.hours, self.minutes, self.seconds
+        )
+    }
+
     /// create a new struct with the elapsed seconds set to any number
     pub fn from_seconds(seconds: u64) -> DaysHoursMinutesSeconds {
         seconds_to_hms(seconds)
@@ -78,12 +86,7 @@ impl State {
     /// Example:
     ///
     pub fn get_uptime(&self) -> String {
-        let dhms = seconds_to_hms(self.get_uptime_seconds());
-
-        format!(
-            "{} days, {:02}:{:02}:{:02} hms",
-            dhms.days, dhms.hours, dhms.minutes, dhms.seconds
-        )
+        seconds_to_hms(self.get_uptime_seconds()).to_string()
     }
 
     /// return the elapsed seconds for this service
@@ -103,12 +106,14 @@ mod tests {
 
     #[test]
     fn get_uptime() {
-        assert!(true);
+        let uptime = State::new();
+        assert_eq!(uptime.get_uptime(), DaysHoursMinutesSeconds::new().to_string());
     }
 
     #[test]
     fn get_uptime_seconds() {
-        assert!(true);
+        let uptime = State::new();
+        assert_eq!(uptime.get_uptime_seconds(), 0);
     }
 
     #[test]
