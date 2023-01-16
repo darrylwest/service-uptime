@@ -1,6 +1,7 @@
 #![doc = include_str!("../README.md")]
 
 use serde::{Deserialize, Serialize};
+use std::cell::Cell;
 use std::fmt;
 use std::time::Instant;
 
@@ -66,7 +67,7 @@ pub struct Uptime {
     /// set on instantiation
     started_at: Instant,
     /// optional way to track error counts for the specified service
-    error_count: u64,
+    error_count: Cell<u64>,
 }
 
 impl Default for Uptime {
@@ -80,7 +81,7 @@ impl Uptime {
     pub fn new() -> Uptime {
         Uptime {
             started_at: Instant::now(),
-            error_count: 0_u64,
+            error_count: Cell::new(0_u64),
         }
     }
 
@@ -104,7 +105,15 @@ impl Uptime {
 
     /// returns the current error count
     pub fn get_error_count(&self) -> u64 {
-        self.error_count
+        self.error_count.get()
+    }
+
+    /// add an error, i.e., bump up the error count by one and return the new count
+    pub fn add_error(&self) -> u64 {
+        let count = self.error_count.get() + 1;
+        self.error_count.set(count);
+
+        count
     }
 }
 
@@ -127,6 +136,15 @@ mod tests {
         );
 
         assert_eq!(uptime.get_started_at().elapsed().as_secs(), 0);
+    }
+
+    #[test]
+    fn add_error() {
+        let uptime = Uptime::new();
+        assert_eq!(uptime.get_error_count(), 0);
+        let count = uptime.add_error();
+        assert_eq!(count, 1);
+        assert_eq!(uptime.get_error_count(), 1);
     }
 
     #[test]
