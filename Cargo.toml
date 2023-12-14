@@ -1,6 +1,6 @@
 [package]
 name = "service_uptime"
-version = "0.5.4"
+version = "0.5.5"
 edition = "2021"
 authors = ["darryl.west@raincitysoftware.com"]
 rust-version = "1.70"
@@ -16,4 +16,4 @@ publish = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde = { version = "1.0.152", features = ["derive"] }
+serde = { version = "1.0.193", features = ["derive"] }

@@ -19,6 +19,10 @@ build:
     clear
     cargo build
 
+# clean the project
+clean:
+    cargo clean
+
 # build the docs
 docs:
     cargo doc --no-deps --open
