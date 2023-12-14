@@ -11,9 +11,9 @@ pub struct DaysHoursMinutesSeconds {
 }
 
 impl fmt::Display for DaysHoursMinutesSeconds {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(
-            f,
+            fmt,
             "{} days, {:02}:{:02}:{:02} hms",
             self.days, self.hours, self.minutes, self.seconds
         )

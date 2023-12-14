@@ -24,7 +24,7 @@ impl Counter {
     }
 
     /// return the current count
-    pub fn value(&self) -> usize {
+    pub fn count(&self) -> usize {
         self.count.load(Ordering::SeqCst)
     }
 
@@ -56,13 +56,13 @@ mod tests {
     #[test]
     fn counter() {
         let counter = Counter::create();
-        assert_eq!(counter.value(), 0);
+        assert_eq!(counter.count(), 0);
     }
 
     #[test]
     fn from() {
         let counter = Counter::from(10);
-        assert_eq!(counter.value(), 10);
+        assert_eq!(counter.count(), 10);
     }
 
     #[test]
@@ -70,7 +70,7 @@ mod tests {
         let mut counter = Counter::create();
         let count = counter.incr();
         assert_eq!(count, 1);
-        assert_eq!(count, counter.value());
+        assert_eq!(count, counter.count());
     }
 
     #[test]
@@ -78,6 +78,6 @@ mod tests {
         let mut counter = Counter::from(10);
         let count = counter.decr();
         assert_eq!(count, 9);
-        assert_eq!(count, counter.value());
+        assert_eq!(count, counter.count());
     }
 }
