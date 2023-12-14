@@ -3,6 +3,8 @@
 ///
 use crate::counter::Counter;
 use crate::uptime::Uptime;
+use std::fmt::{Display, Formatter, Result};
+
 #[derive(Debug)]
 pub struct ServiceStatus {
     pub uptime: Uptime,
@@ -18,18 +20,17 @@ impl ServiceStatus {
             access: Counter::create(),
         }
     }
+}
 
-    /// format the elements in a standard way
-    pub fn to_string(&self) -> String {
-        let mut buf = String::new();
-        buf.push_str("uptime: ");
-        buf.push_str(self.uptime.to_string().as_str());
-        let count = self.errors.count();
-        buf.push_str(format!(", errors: {}", count).as_str());
-        let count = self.access.count();
-        buf.push_str(format!(", access: {}", count).as_str());
-
-        buf
+impl Display for ServiceStatus {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        write!(
+            f,
+            "uptime: {}, errors: {}, access: {}",
+            self.uptime,
+            self.errors.count(),
+            self.access.count()
+        )
     }
 }
 
@@ -38,10 +39,9 @@ mod tests {
     use super::*;
 
     #[test]
-    fn to_string() {
+    fn display() {
         let status = ServiceStatus::create();
-        let ss = status.to_string();
-        println!("{}", ss);
+        println!("{}", status);
     }
 
     #[test]

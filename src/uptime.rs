@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use std::fmt;
+use std::fmt::{Display, Formatter, Result};
 use std::time::Instant;
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
@@ -10,10 +10,10 @@ pub struct DaysHoursMinutesSeconds {
     days: u64,
 }
 
-impl fmt::Display for DaysHoursMinutesSeconds {
-    fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl Display for DaysHoursMinutesSeconds {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         write!(
-            fmt,
+            f,
             "{} days, {:02}:{:02}:{:02} hms",
             self.days, self.hours, self.minutes, self.seconds
         )
@@ -95,8 +95,8 @@ impl Uptime {
     }
 }
 
-impl fmt::Display for Uptime {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl Display for Uptime {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         write!(f, "{}", self.get_uptime())
     }
 }
