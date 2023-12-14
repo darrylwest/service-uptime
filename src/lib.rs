@@ -4,6 +4,8 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 use std::time::Instant;
 
+pub mod counter;
+
 /// the current app version
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
