@@ -40,15 +40,19 @@ mod tests {
 
     #[test]
     fn errors() {
-        let status = ServiceStatus::create();
+        let mut status = ServiceStatus::create();
         println!("{:?}", status.errors);
         assert_eq!(status.errors.count(), 0);
+        let count = status.errors.incr();
+        assert_eq!(count, 1);
     }
 
     #[test]
     fn access() {
-        let status = ServiceStatus::create();
+        let mut status = ServiceStatus::create();
         println!("{:?}", status.access);
         assert_eq!(status.access.count(), 0);
+        let count = status.access.incr();
+        assert_eq!(count, 1);
     }
 }
