@@ -117,6 +117,13 @@ mod tests {
     }
 
     #[test]
+    fn default_uptime() {
+        let uptime = Uptime::default();
+        assert_eq!(uptime.get_started_at().elapsed().as_secs(), 0);
+        println!("{}", uptime);
+    }
+
+    #[test]
     fn get_uptime_seconds() {
         let uptime = Uptime::new();
         assert_eq!(uptime.get_uptime_seconds(), 0);

@@ -57,6 +57,7 @@ mod tests {
     fn counter() {
         let counter = Counter::create();
         assert_eq!(counter.count(), 0);
+        assert_eq!(counter.stop_at(), None);
     }
 
     #[test]
