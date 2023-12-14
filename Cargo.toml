@@ -1,9 +1,9 @@
 [package]
 name = "service_uptime"
-version = "0.5.1"
+version = "0.5.2"
 edition = "2021"
 authors = ["darryl.west@raincitysoftware.com"]
-rust-version = "1.56"
+rust-version = "1.70"
 description = "A small utility that tracks the uptime for web or backend services, worker/actors, and long runnign tasks."
 keywords = ["service stats", "web server", "task uptime" ]
 license = "MIT OR Apach-2.0"

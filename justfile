@@ -2,7 +2,7 @@
 project := "service-uptime"
 
 alias t := test
-alias ta := test-all
+alias pre := test-all
 
 # run the standard tests
 test:
@@ -30,4 +30,8 @@ cover:
 # start a http server in the coverage folder
 serve-cover:
   cd coverage && mv tarpaulin-report.html index.html && python3 -m http.server 8080
+
+# merge the develop branch to main
+merge:
+    git push && git checkout main && git pull && git merge develop && git push && git checkout develop
 
