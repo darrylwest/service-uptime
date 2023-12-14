@@ -1,6 +1,7 @@
 #![doc = include_str!("../README.md")]
 
 pub mod counter;
+pub mod status;
 pub mod uptime;
 
 /// the current app version
