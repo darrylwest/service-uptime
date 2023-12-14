@@ -44,4 +44,11 @@ mod tests {
         println!("{:?}", status.errors);
         assert_eq!(status.errors.count(), 0);
     }
+
+    #[test]
+    fn access() {
+        let status = ServiceStatus::create();
+        println!("{:?}", status.access);
+        assert_eq!(status.access.count(), 0);
+    }
 }
