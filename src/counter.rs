@@ -1,8 +1,9 @@
 use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::Arc;
 
-#[derive(Debug)]
+#[derive(Debug, Default, Clone)]
 pub struct Counter {
-    count: AtomicUsize,
+    count: Arc<AtomicUsize>,
     stop: Option<usize>,
 }
 
@@ -10,7 +11,7 @@ impl Counter {
     /// create the default counter starting at zero and no stop value
     pub fn create() -> Counter {
         Counter {
-            count: AtomicUsize::new(0),
+            count: Arc::new(AtomicUsize::new(0)),
             stop: None,
         }
     }
@@ -18,7 +19,7 @@ impl Counter {
     /// start at the specified number
     pub fn from(start_at: usize) -> Counter {
         Counter {
-            count: AtomicUsize::new(start_at),
+            count: Arc::new(AtomicUsize::new(start_at)),
             stop: None,
         }
     }

@@ -5,7 +5,7 @@ use crate::counter::Counter;
 use crate::uptime::Uptime;
 use std::fmt::{Display, Formatter, Result};
 
-#[derive(Debug)]
+#[derive(Debug, Default, Clone)]
 pub struct ServiceStatus {
     pub uptime: Uptime,
     pub errors: Counter,
